@@ -7,6 +7,5 @@
 #include <chrono>
 
 #include "pgsspec.h"
-#include "bytereadwrite.h"
 
 #endif //PCH_H
