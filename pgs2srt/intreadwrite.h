@@ -1,6 +1,8 @@
 /*
 Stolen from ffmpeg because fuck writing this shit myself
 */
+#ifndef IRW_H
+#define IRW_H
 
 #pragma once
 
@@ -74,4 +76,6 @@ Stolen from ffmpeg because fuck writing this shit myself
         ((uint8_t*)(p))[1] = (d)>>48;           \
         ((uint8_t*)(p))[0] = (d)>>56;           \
     } while(0)
+#endif
+
 #endif

@@ -1,4 +1,7 @@
 #pragma once
+#ifndef PGSS_H
+#define PGSS_H
+
 #include "bytereadwrite.h"
 #include <stdint.h>
 
@@ -69,3 +72,5 @@ enum SegmentType {
     WINDOW_SEGMENT = 0x17,
     DISPLAY_SEGMENT = 0x80,
 };
+
+#endif

@@ -1,4 +1,7 @@
 #pragma once
+#ifndef BRW_H
+#define BRW_H
+
 #include <stdint.h>
 #include "intreadwrite.h"
 
@@ -19,3 +22,5 @@ DEF(unsigned int, be16, 2, AV_RB16, AV_WB16)
 DEF(unsigned int, be24, 3, AV_RB24, AV_WB24)
 DEF(unsigned int, be32, 4, AV_RB32, AV_WB32)
 DEF(uint64_t, be64, 8, AV_RB64, AV_WB64)
+
+#endif // BRW_H
