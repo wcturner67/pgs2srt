@@ -48,6 +48,7 @@ static void process(char* buff, uint64_t size)
 
                 frame.PCS.width = bytestream_get_be16(b);
                 frame.PCS.height = bytestream_get_be16(b);
+                buff += 5;
                 break;
             case WINDOW_SEGMENT:
                 WDS++;

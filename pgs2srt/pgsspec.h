@@ -7,14 +7,8 @@
 
 namespace pgs_segment
 {
-    class segment
-    {
-    public:
-        double PTS = 0;
-        uint16_t size = 0;
-    };
 
-    class PCS : public segment
+    class PCS
     {
     public:
         uint16_t width = 0;
@@ -22,7 +16,7 @@ namespace pgs_segment
         uint8_t num_objects = 0;
     };
 
-    class WDS : public segment
+    class WDS
     {
     public:
         uint16_t x_off = 0;
@@ -31,7 +25,7 @@ namespace pgs_segment
         uint16_t height = 0;
     };
 
-    class PDS : public segment
+    class PDS
     {
     public:
         uint8_t Y = 0;
@@ -40,7 +34,7 @@ namespace pgs_segment
         uint8_t A = 0;
     };
 
-    class ODS : public segment
+    class ODS
     {
     public:
 
