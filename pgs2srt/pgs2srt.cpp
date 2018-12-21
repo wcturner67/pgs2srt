@@ -21,6 +21,7 @@ static void process(char* buff, uint64_t size)
     unsigned int END = 0;
     unsigned int seg_type;
     unsigned int seg_length;
+    int data_length;
     pgs_segment::frame frame;
     frame.decode_rle();
 
@@ -46,18 +47,31 @@ static void process(char* buff, uint64_t size)
             case PRESENTATION_SEGMENT:
                 PCS++;
 
-                frame.PCS.width = bytestream_get_be16(b);
-                frame.PCS.height = bytestream_get_be16(b);
-                buff += 5;
+                frame.PCS.eval(b);
+                buff += seg_length - 4;
                 break;
             case WINDOW_SEGMENT:
                 WDS++;
+
+                frame.WDS.eval(b);
                 break;
             case PALETTE_SEGMENT:
                 PDS++;
+
+                frame.PDS.eval(b);
                 break;
             case OBJECT_SEGMENT:
                 ODS++;
+
+                buff += 3;
+                if (bytestream_get_byte(b) != 0xC0)
+                {
+                    std::cout << "Unexpected LISF flag at " << b << std::endl;
+                    buff += seg_length - 4;
+                    break;
+                }
+
+                data_length = bytestream_get_be24(b);
                 break;
             case DISPLAY_SEGMENT:
                 END++;
@@ -66,7 +80,6 @@ static void process(char* buff, uint64_t size)
             default:
                 break;
             }
-            buff += bytestream_get_be16(&buff);
         }
         else
         {

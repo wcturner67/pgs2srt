@@ -14,6 +14,11 @@ namespace pgs_segment
         uint16_t width = 0;
         uint16_t height = 0;
         uint8_t num_objects = 0;
+        void eval(char **b)
+        {
+            this->width = bytestream_get_be16(b);
+            this->height = bytestream_get_be16(b);
+        }
     };
 
     class WDS
@@ -23,6 +28,14 @@ namespace pgs_segment
         uint16_t width = 0;
         uint16_t y_off = 0;
         uint16_t height = 0;
+        void eval(char **b)
+        {
+            *b += 2;
+            this->x_off = bytestream_get_be16(b);
+            this->y_off = bytestream_get_be16(b);
+            this->width = bytestream_get_be16(b);
+            this->height = bytestream_get_be16(b);
+        }
     };
 
     class PDS
@@ -32,12 +45,25 @@ namespace pgs_segment
         uint8_t Cr = 0;
         uint8_t Cb = 0;
         uint8_t A = 0;
+        void eval(char **b)
+        {
+            *b += 3;
+            this->Y = bytestream_get_byte(b);
+            this->Cr = bytestream_get_byte(b);
+            this->Cb = bytestream_get_byte(b);
+            this->A = bytestream_get_byte(b);
+        }
     };
 
     class ODS
     {
     public:
+        uint32_t length = 0;
 
+        void eval(char **b)
+        {
+
+        }
     };
 
     class frame
