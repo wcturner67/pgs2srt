@@ -67,7 +67,7 @@ static void process(char* buff, uint64_t size)
                 if (bytestream_get_byte(b) != 0xC0)
                 {
                     // If this comes up a lot, then this feature needs to be implemented
-                    std::cout << "Unexpected LISF flag at " << b << std::endl;
+                    std::cout << "Unexpected LISF flag at " << buff << std::endl;
                     buff += seg_length - 4;
                     break;
                 }
@@ -76,6 +76,8 @@ static void process(char* buff, uint64_t size)
                 break;
             case DISPLAY_SEGMENT:
                 END++;
+
+                frame.decode_rle();
                 frame.reset();
                 break;
             default:
@@ -88,11 +90,11 @@ static void process(char* buff, uint64_t size)
         }
     }
     std::cout 
-        << "PCS: " << PCS << std::endl
-        << "WDS: " << WDS << std::endl
-        << "PDS: " << PDS << std::endl
-        << "ODS: " << ODS << std::endl
-        << "END: " << END << std::endl;
+        << "PCS Segments: " << PCS << std::endl
+        << "WDS Segments: " << WDS << std::endl
+        << "PDS Segments: " << PDS << std::endl
+        << "ODS Segments: " << ODS << std::endl
+        << "END Segments: " << END << std::endl;
 }
 
 int main(int argc, char** argv)

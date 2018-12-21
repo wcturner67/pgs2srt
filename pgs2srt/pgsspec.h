@@ -76,12 +76,16 @@ namespace pgs_segment
         WDS WDS;
         PDS PDS;
         ODS ODS;
-        static void reset()
+        void reset()
         {
-
+            this->PTS = 0;
+            this->PCS = pgs_segment::PCS();
+            this->WDS = pgs_segment::WDS();
+            this->PDS = pgs_segment::PDS();
+            this->ODS = pgs_segment::ODS();
         }
 
-        static void decode_rle()
+        void decode_rle()
         {
             
         }
