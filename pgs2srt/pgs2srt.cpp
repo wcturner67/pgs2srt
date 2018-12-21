@@ -22,7 +22,6 @@ static void process(char* buff, uint64_t size)
     unsigned int seg_type;
     unsigned int seg_length;
     pgs_segment::frame frame;
-    frame.decode_rle();
 
     while (buff < end)
     {
