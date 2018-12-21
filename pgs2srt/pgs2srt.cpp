@@ -11,7 +11,6 @@
  */
 static void process(char* buff, uint64_t size)
 {
-    int headers = 0;
     char *end = buff + size;
     auto b = &buff;
     unsigned int PCS = 0;
@@ -66,7 +65,7 @@ static void process(char* buff, uint64_t size)
                 if (bytestream_get_byte(b) != 0xC0)
                 {
                     // If this comes up a lot, then this feature needs to be implemented
-                    std::cout << "Unexpected LISF flag at " << buff << std::endl;
+                    std::cout << "Unexpected LISF flag at " << buff << '\n';
                     buff += seg_length - 4;
                     break;
                 }
@@ -89,11 +88,11 @@ static void process(char* buff, uint64_t size)
         }
     }
     std::cout 
-        << "PCS Segments: " << PCS << std::endl
-        << "WDS Segments: " << WDS << std::endl
-        << "PDS Segments: " << PDS << std::endl
-        << "ODS Segments: " << ODS << std::endl
-        << "END Segments: " << END << std::endl;
+        << "PCS Segments: " << PCS << '\n'
+        << "WDS Segments: " << WDS << '\n'
+        << "PDS Segments: " << PDS << '\n'
+        << "ODS Segments: " << ODS << '\n'
+        << "END Segments: " << END << '\n';
 }
 
 int main(int argc, char** argv)
@@ -105,6 +104,7 @@ int main(int argc, char** argv)
         if (std::string(argv[i-1]) == "-i")
         {
             filename = argv[i];
+            break;
         }
     }
 
@@ -126,7 +126,7 @@ int main(int argc, char** argv)
 
     file.close();
     auto stop = std::chrono::steady_clock::now();
-    std::cout << std::endl << "Execution time: " << 
-        std::chrono::duration<double, std::milli>(stop - start).count() << " ms" << std::endl;
+    std::cout << '\n' << "Execution time: " <<
+        std::chrono::duration<double, std::milli>(stop - start).count() << " ms" << '\n';
     return 0;
 }
