@@ -32,7 +32,7 @@ static void process(char* buff, uint64_t size)
             // Gather PTS info if not already read, otherwise skip
             if (!frame.PTS)
             {
-                frame.PTS = (double)bytestream_get_be32(b) / 90000;
+                frame.PTS = (double)bytestream_get_be32(b) / 9e4;
                 buff += 4;
             }
             else
@@ -59,6 +59,7 @@ static void process(char* buff, uint64_t size)
                 PDS++;
 
                 frame.PDS.eval(b);
+                buff += seg_length - 7;
                 break;
             case OBJECT_SEGMENT:
                 ODS++;
@@ -66,12 +67,13 @@ static void process(char* buff, uint64_t size)
                 buff += 3;
                 if (bytestream_get_byte(b) != 0xC0)
                 {
+                    // If this comes up a lot, then this feature needs to be implemented
                     std::cout << "Unexpected LISF flag at " << b << std::endl;
                     buff += seg_length - 4;
                     break;
                 }
 
-                data_length = bytestream_get_be24(b);
+                frame.ODS.eval(b);
                 break;
             case DISPLAY_SEGMENT:
                 END++;

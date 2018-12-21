@@ -59,10 +59,12 @@ namespace pgs_segment
     {
     public:
         uint32_t length = 0;
-
+        char* data;
         void eval(char **b)
         {
-
+            this->length = bytestream_get_be24(b);
+            this->data = *b;
+            *b += this->length;
         }
     };
 
