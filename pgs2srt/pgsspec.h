@@ -49,6 +49,7 @@ namespace pgs_segment
     class frame
     {
     public:
+        double PTS = 0;
         PCS PCS;
         WDS WDS;
         PDS PDS;

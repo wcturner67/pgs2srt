@@ -13,26 +13,41 @@ static void process(char* buff, uint64_t size)
 {
     int headers = 0;
     char *end = buff + size;
-
+    auto b = &buff;
     unsigned int PCS = 0;
     unsigned int WDS = 0;
     unsigned int PDS = 0;
     unsigned int ODS = 0;
     unsigned int END = 0;
-    double PTS;
+    unsigned int seg_type;
+    unsigned int seg_length;
     pgs_segment::frame frame;
     frame.decode_rle();
 
     while (buff < end)
     {
-        if (bytestream_get_be16(&buff) == 0x5047)
+        if (bytestream_get_be16(b) == 0x5047)
         {
-            PTS = bytestream_get_be32(&buff) / 90000;
-            buff += 4;
-            switch (bytestream_get_byte(&buff))
+            // Gather PTS info if not already read, otherwise skip
+            if (!frame.PTS)
+            {
+                frame.PTS = (double)bytestream_get_be32(b) / 90000;
+                buff += 4;
+            }
+            else
+            {
+                buff += 8;
+            }
+
+            seg_type = bytestream_get_byte(b);
+            seg_length = bytestream_get_be16(b);
+            switch (seg_type)
             {
             case PRESENTATION_SEGMENT:
                 PCS++;
+
+                frame.PCS.width = bytestream_get_be16(b);
+                frame.PCS.height = bytestream_get_be16(b);
                 break;
             case WINDOW_SEGMENT:
                 WDS++;
