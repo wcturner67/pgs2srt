@@ -65,10 +65,19 @@ static void process(char* buff, uint64_t size)
         << "END: " << END << std::endl;
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    // Parse inputs
+    std::string filename;
+    for (int i = 2; i < argc; i++)
+    {
+        if (std::string(argv[i-1]) == "-i")
+        {
+            filename = argv[i];
+        }
+    }
+
     auto start = std::chrono::steady_clock::now();
-    auto filename = "Heat Sub2.sup"; // Placeholder until filename inputs are implemented
     std::ifstream file (filename, std::ios::binary | std::ios::ate);
     if (file.is_open())
     {

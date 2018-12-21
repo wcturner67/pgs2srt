@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <chrono>
 
 #include "pgsspec.h"
