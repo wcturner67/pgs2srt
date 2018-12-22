@@ -72,6 +72,7 @@ namespace pgs_segment
     class frame
     {
     public:
+        unsigned int sub_num = 0;
         double PTS = 0;
         PCS PCS;
         WDS WDS;
@@ -88,10 +89,14 @@ namespace pgs_segment
 
         void decode(char **b)
         {
+            if (!this->ODS.data) { return; }
+
             // TODO
             *b += 2;
             std::string end_time = std::to_string((double)bytestream_get_be32(b) / 9e4);
             *b -= 6;
+
+            this->sub_num++;
 
             /*
             Just a note, the frame after subs is only used to terminate the frame
@@ -100,7 +105,8 @@ namespace pgs_segment
 
             // Replace with ofstream when done
             std::cout << 
-                std::to_string(this->PTS) + " --> " + end_time + '\n'
+                std::to_string(this->sub_num) + '\n'
+                + std::to_string(this->PTS) + " --> " + end_time + '\n'
                 +'\n';
         }
     };
