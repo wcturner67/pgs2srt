@@ -113,6 +113,15 @@ int main(int argc, char** argv)
     if (file.is_open())
     {
         uint64_t size = file.tellg();
+        if (size > 1e9)
+        {
+            std::cout << "Warning: " << '\n' << "Proceed? [Y/n]: " ;
+            char in; std::cin >> in; std::cout << '\n';
+            if (in != 'Y') // Need to support blank input
+            {
+                return 10;
+            }
+        }
         file.seekg(0, std::ios::beg);
         char* buff = new char[size];
         file.read(buff, size);
