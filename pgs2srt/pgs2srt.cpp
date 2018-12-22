@@ -117,10 +117,12 @@ int main(int argc, char** argv)
         uint64_t size = file.tellg();
         if (size > 1e9)
         {
-            std::cout << "Warning: " << '\n' << "Proceed? [Y/n]: " ;
-            char in; std::cin >> in; std::cout << '\n';
-            if (in != 'Y') // Need to support blank input
+            std::cout << "Warning: filesize exceeds 1GB"
+                << '\n' << "Proceed? [Y/n]: " ;
+            char in = std::getchar(); std::cout << '\n';
+            if (tolower(in) != 'y' || in != '\n') 
             {
+                std::cout << "Aborting due to user input";
                 return 10;
             }
         }
