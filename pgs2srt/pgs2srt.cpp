@@ -131,7 +131,7 @@ int main(int argc, char** argv)
     }
     else
     {
-        std::cout << "Failed to open file" << std::endl;
+        std::cout << "Failed to open file " << filename << std::endl;
         return 2;
     }
 
