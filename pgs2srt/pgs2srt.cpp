@@ -76,7 +76,7 @@ static void process(char* buff, uint64_t size)
             case DISPLAY_SEGMENT:
                 END++;
 
-                line = frame.decode();
+                frame.decode(b); // line goes here when tess implemented
                 frame.reset();
                 break;
             default:
@@ -115,7 +115,7 @@ int main(int argc, char** argv)
     std::ifstream file (filename, std::ios::binary | std::ios::ate);
     if (!file.is_open())
     {
-        std::cout << "Failed to open file " << filename << std::endl;
+        std::cout << "Failed to open file " << filename << '\n';
         return 2;
     }
 
@@ -127,7 +127,7 @@ int main(int argc, char** argv)
         char in = tolower(std::getchar());
         if (in != 'y' || in != '\n')
         {
-            std::cout << "Aborting due to user input";
+            std::cout << "Aborting due to user input" << '\n';
             return 10;
         }
     }

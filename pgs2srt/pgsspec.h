@@ -58,6 +58,7 @@ namespace pgs_segment
     class ODS
     {
     public:
+        uint16_t ID = 0;
         uint32_t length = 0;
         char* data;
         void eval(char **b)
@@ -85,10 +86,22 @@ namespace pgs_segment
             this->ODS = pgs_segment::ODS();
         }
 
-        std::string decode()
+        void decode(char **b)
         {
             // TODO
-            return "";
+            *b += 2;
+            std::string end_time = std::to_string((double)bytestream_get_be32(b) / 9e4);
+            *b -= 6;
+
+            /*
+            Just a note, the frame after subs is only used to terminate the frame
+            and contains no new information 
+            */
+
+            // Replace with ofstream when done
+            std::cout << 
+                std::to_string(this->PTS) + " --> " + end_time + '\n'
+                +'\n';
         }
     };
 }
