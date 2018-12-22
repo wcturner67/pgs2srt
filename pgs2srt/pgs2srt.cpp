@@ -62,7 +62,7 @@ static void process(char* buff, uint64_t size)
                 ODS++;
 
                 buff += 3;
-                if (bytestream_get_byte(b) != 0xC0)
+                if (bytestream_get_byte(b) != FLIS)
                 {
                     // If this comes up a lot, then this feature needs to be implemented
                     std::cout << "Unexpected LISF flag at " << buff << '\n';
@@ -79,6 +79,8 @@ static void process(char* buff, uint64_t size)
                 frame.reset();
                 break;
             default:
+                std::cout << "Unrecognized segment type " << seg_type << " at "
+                    << buff << '\n';
                 break;
             }
         }

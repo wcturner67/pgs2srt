@@ -87,7 +87,7 @@ namespace pgs_segment
 
         void decode_rle()
         {
-            
+            // TODO
         }
     };
 }
@@ -98,6 +98,12 @@ enum SegmentType {
     PRESENTATION_SEGMENT = 0x16,
     WINDOW_SEGMENT = 0x17,
     DISPLAY_SEGMENT = 0x80,
+};
+
+enum SequenceFlag {
+    LIS = 0x40,
+    FIS = 0x80,
+    FLIS = 0xC0
 };
 
 #endif
