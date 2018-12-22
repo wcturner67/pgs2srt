@@ -85,9 +85,10 @@ namespace pgs_segment
             this->ODS = pgs_segment::ODS();
         }
 
-        void decode_rle()
+        std::string decode()
         {
             // TODO
+            return "";
         }
     };
 }

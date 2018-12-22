@@ -21,6 +21,7 @@ static void process(char* buff, uint64_t size)
     unsigned int seg_type;
     unsigned int seg_length;
     pgs_segment::frame frame;
+    std::string line;
 
     while (buff < end)
     {
@@ -75,7 +76,7 @@ static void process(char* buff, uint64_t size)
             case DISPLAY_SEGMENT:
                 END++;
 
-                frame.decode_rle();
+                line = frame.decode();
                 frame.reset();
                 break;
             default:
@@ -112,30 +113,28 @@ int main(int argc, char** argv)
 
     auto start = std::chrono::steady_clock::now();
     std::ifstream file (filename, std::ios::binary | std::ios::ate);
-    if (file.is_open())
-    {
-        uint64_t size = file.tellg();
-        if (size > 1e9)
-        {
-            std::cout << "Warning: filesize exceeds 1GB"
-                << '\n' << "Proceed? [Y/n]: " ;
-            char in = std::getchar(); std::cout << '\n';
-            if (tolower(in) != 'y' || in != '\n') 
-            {
-                std::cout << "Aborting due to user input";
-                return 10;
-            }
-        }
-        file.seekg(0, std::ios::beg);
-        char* buff = new char[size];
-        file.read(buff, size);
-        process(buff, size);
-    }
-    else
+    if (!file.is_open())
     {
         std::cout << "Failed to open file " << filename << std::endl;
         return 2;
     }
+
+    uint64_t size = file.tellg();
+    if (size > 1e9)
+    {
+        std::cout << "Warning: filesize exceeds 1GB"
+            << '\n' << "Proceed? [Y/n]: ";
+        char in = tolower(std::getchar());
+        if (in != 'y' || in != '\n')
+        {
+            std::cout << "Aborting due to user input";
+            return 10;
+        }
+    }
+    file.seekg(0);
+    char* buff = new char[size];
+    file.read(buff, size);
+    process(buff, size);
 
     file.close();
     auto stop = std::chrono::steady_clock::now();
