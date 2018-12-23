@@ -9,7 +9,7 @@
  * @param buff pointer to buffer to be processed
  * @param size number of bytes to process
  */
-static void process(char* buff, uint64_t size)
+static void process(char* buff, uint64_t size, std::string &filename)
 {
     char *end = buff + size;
     auto b = &buff;
@@ -20,7 +20,7 @@ static void process(char* buff, uint64_t size)
     unsigned int END = 0;
     unsigned int seg_type;
     unsigned int seg_length;
-    pgs_segment::frame frame;
+    pgs_segment::frame frame(filename);
     std::string line;
 
     while (buff < end)
@@ -134,7 +134,7 @@ int main(int argc, char** argv)
     file.seekg(0);
     char* buff = new char[size];
     file.read(buff, size);
-    process(buff, size);
+    process(buff, size, filename);
 
     file.close();
     auto stop = std::chrono::steady_clock::now();

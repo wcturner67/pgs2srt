@@ -4,6 +4,7 @@
 
 #include "bytereadwrite.h"
 #include <stdint.h>
+#include <vector>
 
 namespace pgs_segment
 {
@@ -78,6 +79,8 @@ namespace pgs_segment
         WDS WDS;
         PDS PDS;
         ODS ODS;
+        std::ofstream f;
+
         void reset()
         {
             this->PTS = 0;
@@ -87,28 +90,35 @@ namespace pgs_segment
             this->ODS = pgs_segment::ODS();
         }
 
+        std::vector<std::vector<uint8_t>> rle_decode()
+        {
+
+        }
+
         void decode(char **b)
         {
+            /*
+             * Just a note, only every other frame should actually contain information
+             * The 'second' frames are used to mark the end time
+             */
             if (!this->ODS.data) { return; }
 
-            // TODO
+            // Read end time from next segment
             *b += 2;
             std::string end_time = std::to_string((double)bytestream_get_be32(b) / 9e4);
             *b -= 6;
 
             this->sub_num++;
-
-            /*
-            Just a note, the frame after subs is only used to terminate the frame
-            and contains no new information 
-            */
-
+                        
             // Replace with ofstream when done
-            std::cout << 
+            this->f << 
                 std::to_string(this->sub_num) + '\n'
                 + std::to_string(this->PTS) + " --> " + end_time + '\n'
                 +'\n';
         }
+
+        frame (std::string fname) : 
+            f(std::ofstream(fname.substr(0, fname.size()-4) + ".srt")) {};
     };
 }
 
