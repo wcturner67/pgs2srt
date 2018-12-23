@@ -15,10 +15,10 @@ namespace pgs_segment
         uint16_t width = 0;
         uint16_t height = 0;
         uint8_t num_objects = 0;
-        void eval(char **b)
+        void eval(char *&buff)
         {
-            this->width = bytestream_get_be16(b);
-            this->height = bytestream_get_be16(b);
+            this->width = bytestream_get_be16(buff);
+            this->height = bytestream_get_be16(buff);
         }
     };
 
@@ -29,13 +29,13 @@ namespace pgs_segment
         uint16_t width = 0;
         uint16_t y_off = 0;
         uint16_t height = 0;
-        void eval(char **b)
+        void eval(char *&buff)
         {
-            *b += 2;
-            this->x_off = bytestream_get_be16(b);
-            this->y_off = bytestream_get_be16(b);
-            this->width = bytestream_get_be16(b);
-            this->height = bytestream_get_be16(b);
+            buff += 2;
+            this->x_off = bytestream_get_be16(buff);
+            this->y_off = bytestream_get_be16(buff);
+            this->width = bytestream_get_be16(buff);
+            this->height = bytestream_get_be16(buff);
         }
     };
 
@@ -46,13 +46,13 @@ namespace pgs_segment
         uint8_t Cr = 0;
         uint8_t Cb = 0;
         uint8_t A = 0;
-        void eval(char **b)
+        void eval(char *&buff)
         {
-            *b += 3;
-            this->Y = bytestream_get_byte(b);
-            this->Cr = bytestream_get_byte(b);
-            this->Cb = bytestream_get_byte(b);
-            this->A = bytestream_get_byte(b);
+            buff += 3;
+            this->Y = bytestream_get_byte(buff);
+            this->Cr = bytestream_get_byte(buff);
+            this->Cb = bytestream_get_byte(buff);
+            this->A = bytestream_get_byte(buff);
         }
     };
 
@@ -62,11 +62,11 @@ namespace pgs_segment
         uint16_t ID = 0;
         uint32_t length = 0;
         char* data;
-        void eval(char **b)
+        void eval(char *&buff)
         {
-            this->length = bytestream_get_be24(b);
-            this->data = *b;
-            *b += this->length;
+            this->length = bytestream_get_be24(buff);
+            this->data = buff;
+            buff += this->length;
         }
     };
 
@@ -95,7 +95,7 @@ namespace pgs_segment
 
         }
 
-        void decode(char **b)
+        void decode(char *&buff)
         {
             /*
              * Just a note, only every other frame should actually contain information
@@ -104,9 +104,9 @@ namespace pgs_segment
             if (!this->ODS.data) { return; }
 
             // Read end time from next segment
-            *b += 2;
-            std::string end_time = std::to_string((double)bytestream_get_be32(b) / 9e4);
-            *b -= 6;
+            buff += 2;
+            std::string end_time = std::to_string((double)bytestream_get_be32(buff) / 9e4);
+            buff -= 6;
 
             this->sub_num++;
                         

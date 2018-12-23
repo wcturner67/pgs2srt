@@ -6,10 +6,10 @@
 #include "intreadwrite.h"
 
 #define DEF(type, name, bytes, read, write)                                  \
-static type bytestream_get_ ## name(char **b)                                  \
+static type bytestream_get_ ## name(char *&b)                                  \
 {                                                                              \
-    (*b) += bytes;                                                             \
-    return read(*b - bytes);                                                   \
+    b += bytes;                                                                \
+    return read(b - bytes);                                                    \
 }                                                                              \
 static void bytestream_put_ ## name(uint8_t **b, const type value)             \
 {                                                                              \

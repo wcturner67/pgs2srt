@@ -12,7 +12,6 @@
 static void process(char* buff, uint64_t size, std::string &filename)
 {
     char *end = buff + size;
-    auto b = &buff;
     unsigned int PCS = 0;
     unsigned int WDS = 0;
     unsigned int PDS = 0;
@@ -25,12 +24,12 @@ static void process(char* buff, uint64_t size, std::string &filename)
 
     while (buff < end)
     {
-        if (bytestream_get_be16(b) == 0x5047)
+        if (bytestream_get_be16(buff) == 0x5047)
         {
             // Gather PTS info if not already read, otherwise skip
             if (!frame.PTS)
             {
-                frame.PTS = (double)bytestream_get_be32(b) / 9e4;
+                frame.PTS = (double)bytestream_get_be32(buff) / 9e4;
                 buff += 4;
             }
             else
@@ -38,32 +37,32 @@ static void process(char* buff, uint64_t size, std::string &filename)
                 buff += 8;
             }
 
-            seg_type = bytestream_get_byte(b);
-            seg_length = bytestream_get_be16(b);
+            seg_type = bytestream_get_byte(buff);
+            seg_length = bytestream_get_be16(buff);
             switch (seg_type)
             {
             case PRESENTATION_SEGMENT:
                 PCS++;
 
-                frame.PCS.eval(b);
+                frame.PCS.eval(buff);
                 buff += seg_length - 4;
                 break;
             case WINDOW_SEGMENT:
                 WDS++;
 
-                frame.WDS.eval(b);
+                frame.WDS.eval(buff);
                 break;
             case PALETTE_SEGMENT:
                 PDS++;
 
-                frame.PDS.eval(b);
+                frame.PDS.eval(buff);
                 buff += seg_length - 7;
                 break;
             case OBJECT_SEGMENT:
                 ODS++;
 
                 buff += 3;
-                if (bytestream_get_byte(b) != FLIS)
+                if (bytestream_get_byte(buff) != FLIS)
                 {
                     // If this comes up a lot, then this feature needs to be implemented
                     std::cout << "Unexpected LISF flag at " << buff << '\n';
@@ -71,12 +70,12 @@ static void process(char* buff, uint64_t size, std::string &filename)
                     break;
                 }
 
-                frame.ODS.eval(b);
+                frame.ODS.eval(buff);
                 break;
             case DISPLAY_SEGMENT:
                 END++;
 
-                frame.decode(b); // line goes here when tess implemented
+                frame.decode(buff); // line goes here when tess implemented
                 frame.reset();
                 break;
             default:
