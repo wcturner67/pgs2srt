@@ -9,7 +9,7 @@
  * @param buff pointer to buffer to be processed
  * @param size number of bytes to process
  */
-static void process(char* buff, uint64_t size, std::string &filename)
+static void process(char* &buff, uint64_t size, std::string &filename)
 {
     char *end = buff + size;
     unsigned int PCS = 0;
@@ -108,6 +108,11 @@ int main(int argc, char** argv)
             filename = argv[i];
             break;
         }
+    }
+    if (filename == "")
+    {
+        std::cout << "Filename input not received" << '\n';
+        return 5;
     }
 
     auto start = std::chrono::steady_clock::now();

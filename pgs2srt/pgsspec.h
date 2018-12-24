@@ -117,7 +117,7 @@ namespace pgs_segment
                 +'\n';
         }
 
-        frame (std::string fname) : 
+        frame (std::string &fname) : 
             f(std::ofstream(fname.substr(0, fname.size()-4) + ".srt")) {};
     };
 }
