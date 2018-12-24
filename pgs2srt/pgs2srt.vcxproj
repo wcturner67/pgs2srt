@@ -107,6 +107,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>C:\Users\William\source\tesseract\src\api;C:\Users\William\source\tesseract\src\ccstruct;C:\Users\William\source\tesseract\src\ccutil;C:\Users\William\source\tesseract\src\ccmain;C:\Users\William\source\leptonica\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

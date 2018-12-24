@@ -5,6 +5,11 @@
 #include "bytereadwrite.h"
 #include <stdint.h>
 #include <vector>
+#include <environ.h>
+#include <pix.h>
+#include <baseapi.h>
+
+#define RGBA(r,g,b,a) (((unsigned)(a) << 24) | ((r) << 16) | ((g) << 8) | (b))
 
 namespace pgs_segment
 {
@@ -90,12 +95,28 @@ namespace pgs_segment
             this->ODS = pgs_segment::ODS();
         }
 
-        std::vector<std::vector<uint8_t>> rle_decode()
+        Pix decode_rle()
         {
+            char* b = this->ODS.data;
+            char* end = this->ODS.length + b;
+            Pix p;
+            p.w = this->WDS.width;
+            p.h = this->WDS.height;
+            
+            int r = 0;
 
+            while (b < end && r < this->WDS.height)
+            {
+                for (int c = 0; c < this->WDS.width; c++)
+                {
+                    
+                }
+                r++;
+            }
+            return p;
         }
 
-        void decode(char *&buff)
+        void decode(char *buff)
         {
             /*
              * Just a note, only every other frame should actually contain information
@@ -106,15 +127,20 @@ namespace pgs_segment
             // Read end time from next segment
             buff += 2;
             std::string end_time = std::to_string((double)bytestream_get_be32(buff) / 9e4);
-            buff -= 6;
 
             this->sub_num++;
+
+            tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
+            api->SetImage(&(this->decode_rle()));
                         
             // Replace with ofstream when done
             this->f << 
                 std::to_string(this->sub_num) + '\n'
                 + std::to_string(this->PTS) + " --> " + end_time + '\n'
+                + api->GetUTF8Text() + '\n'
                 +'\n';
+
+            api->End();
         }
 
         frame (std::string &fname) : 
@@ -136,4 +162,4 @@ enum SequenceFlag {
     FLIS = 0xC0
 };
 
-#endif
+#endif //PGSS_H

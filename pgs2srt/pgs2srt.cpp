@@ -109,7 +109,7 @@ int main(int argc, char** argv)
             break;
         }
     }
-    if (filename == "")
+    if (filename.empty())
     {
         std::cout << "Filename input not received" << '\n';
         return 5;
