@@ -4,9 +4,13 @@
 
 #include "bytereadwrite.h"
 #include <stdint.h>
-#include <vector>
+
+// Leptonica headers needed for Tesseract
 #include <environ.h>
 #include <pix.h>
+
+// Tesseract API headers
+#include <basedir.h>
 #include <baseapi.h>
 
 #define RGBA(r,g,b,a) (((unsigned)(a) << 24) | ((r) << 16) | ((g) << 8) | (b))
@@ -95,13 +99,13 @@ namespace pgs_segment
             this->ODS = pgs_segment::ODS();
         }
 
-        Pix decode_rle()
+        Pix* decode_rle()
         {
             char* b = this->ODS.data;
             char* end = this->ODS.length + b;
-            Pix p;
-            p.w = this->WDS.width;
-            p.h = this->WDS.height;
+            Pix* p = new Pix;
+            p->w = this->WDS.width;
+            p->h = this->WDS.height;
             
             int r = 0;
 
@@ -131,15 +135,17 @@ namespace pgs_segment
             this->sub_num++;
 
             tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
-            api->SetImage(&(this->decode_rle()));
-                        
+            Pix* p = this->decode_rle();
+            api->SetImage(p);
+
             // Replace with ofstream when done
-            this->f << 
+            this->f <<
                 std::to_string(this->sub_num) + '\n'
                 + std::to_string(this->PTS) + " --> " + end_time + '\n'
                 + api->GetUTF8Text() + '\n'
-                +'\n';
+                + '\n';
 
+            delete &p;
             api->End();
         }
 
