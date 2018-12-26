@@ -261,3 +261,14 @@ __pycache__/
 *.pyc
 *.bmp
 *.srt
+/pgs2srt/tesseract40.dll
+/pgs2srt/pvt.cppan.demo.xz_utils.lzma-5.2.4.dll
+/pgs2srt/pvt.cppan.demo.webmproject.webp-1.0.0.dll
+/pgs2srt/pvt.cppan.demo.tiff-4.0.9.dll
+/pgs2srt/pvt.cppan.demo.png-1.6.35.dll
+/pgs2srt/pvt.cppan.demo.openjpeg.openjp2-2.3.0.dll
+/pgs2srt/pvt.cppan.demo.madler.zlib-1.2.11.dll
+/pgs2srt/pvt.cppan.demo.jpeg-9.2.0.dll
+/pgs2srt/pvt.cppan.demo.danbloomberg.leptonica-1.76.0.dll
+/pgs2srt/leptonica-1.78.0d.dll
+*.dll

@@ -103,19 +103,13 @@ namespace pgs_segment
         {
             char* b = this->ODS.data;
             char* end = this->ODS.length + b;
+            uint64_t size = this->WDS.height * this->WDS.width;
             Pix* p = new Pix;
-            p->w = this->WDS.width;
             p->h = this->WDS.height;
-            
-            int r = 0;
-
-            while (b < end && r < this->WDS.height)
+            p->w = this->WDS.width;
+            for (int i = 0; i < size; i++)
             {
-                for (int c = 0; c < this->WDS.width; c++)
-                {
-                    
-                }
-                r++;
+                p->data[i] = 1;
             }
             return p;
         }
@@ -137,15 +131,17 @@ namespace pgs_segment
             tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
             Pix* p = this->decode_rle();
             api->SetImage(p);
+            char* text = api->GetUTF8Text();
 
             // Replace with ofstream when done
             this->f <<
                 std::to_string(this->sub_num) + '\n'
                 + std::to_string(this->PTS) + " --> " + end_time + '\n'
-                + api->GetUTF8Text() + '\n'
+                + text + '\n'
                 + '\n';
 
-            delete &p;
+            delete[] p;
+            delete[] text;
             api->End();
         }
 

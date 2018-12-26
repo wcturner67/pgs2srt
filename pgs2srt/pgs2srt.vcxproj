@@ -145,10 +145,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalIncludeDirectories>C:\Users\William\source\tesseract\src\api;C:\Users\William\source\tesseract\src\ccmain;C:\Users\William\source\tesseract\src\ccstruct;C:\Users\William\source\tesseract\src\ccutil;C:\Users\William\source\leptonica\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -173,10 +174,13 @@
     <ClCompile Include="pgs2srt.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\..\tesseract\win64\Release\tesseract40.exp" />
+    <None Include="..\..\..\leptonica\build\bin\Debug\leptonica-1.78.0d.ilk" />
+    <None Include="..\..\..\leptonica\build\bin\Debug\leptonica-1.78.0d.pdb" />
+    <None Include="..\..\..\leptonica\build\src\Debug\leptonica-1.78.0d.exp" />
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\..\tesseract\win64\Release\tesseract40.lib" />
+    <Library Include="..\..\..\leptonica\build\src\Debug\leptonica-1.78.0d.lib" />
+    <Library Include="..\..\..\tesseract\win64\Debug\tesseract40d.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
