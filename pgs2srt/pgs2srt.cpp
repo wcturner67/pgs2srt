@@ -19,69 +19,68 @@ static void process(char* &buff, const char* end,
 
     while (buff < end)
     {
-        if (bytestream_get_be16(buff) == 0x5047)
+        if (bytestream_get_be16(buff) != 0x5047)
         {
-            // Gather PTS info if not already read, otherwise skip
-            if (!frame.PTS)
-            {
-                frame.PTS = (double)bytestream_get_be32(buff) / 9e4;
-                buff += 4;
-            }
-            else
-            {
-                buff += 8;
-            }
+            buff--;
+            continue;
+        }
 
-            seg_type = bytestream_get_byte(buff);
-            seg_length = bytestream_get_be16(buff);
-            switch (seg_type)
-            {
-            case PRESENTATION_SEGMENT:
-                PCS++;
-
-                frame.PCS.eval(buff);
-                buff += seg_length - 4;
-                break;
-            case WINDOW_SEGMENT:
-                WDS++;
-
-                frame.WDS.eval(buff);
-                break;
-            case PALETTE_SEGMENT:
-                PDS++;
-
-                frame.PDS.eval(buff);
-                buff += seg_length - 7;
-                break;
-            case OBJECT_SEGMENT:
-                ODS++;
-
-                buff += 3;
-                if (bytestream_get_byte(buff) != FLIS)
-                {
-                    // If this comes up a lot, then this feature needs to be implemented
-                    std::cout << "Unexpected LISF flag at " << buff << '\n';
-                    buff += seg_length - 4;
-                    break;
-                }
-
-                frame.ODS.eval(buff);
-                break;
-            case DISPLAY_SEGMENT:
-                END++;
-
-                frame.decode(buff, tess);
-                frame.reset();
-                break;
-            default:
-                std::cout << "Unrecognized segment type " << seg_type << " at "
-                    << buff << '\n';
-                break;
-            }
+        // Gather PTS info if not already read, otherwise skip
+        if (!frame.PTS)
+        {
+            frame.PTS = (double)bytestream_get_be32(buff) / 9e4;
+            buff += 4;
         }
         else
         {
-            buff--;
+            buff += 8;
+        }
+
+        seg_type = bytestream_get_byte(buff);
+        seg_length = bytestream_get_be16(buff);
+        switch (seg_type)
+        {
+        case PRESENTATION_SEGMENT:
+            PCS++;
+
+            frame.PCS.eval(buff);
+            buff += seg_length - 4;
+            break;
+        case WINDOW_SEGMENT:
+            WDS++;
+
+            frame.WDS.eval(buff);
+            break;
+        case PALETTE_SEGMENT:
+            PDS++;
+
+            frame.PDS.eval(buff);
+            buff += seg_length - 7;
+            break;
+        case OBJECT_SEGMENT:
+            ODS++;
+
+            buff += 3;
+            if (bytestream_get_byte(buff) != FLIS)
+            {
+                // If this comes up a lot, then this feature needs to be implemented
+                std::cout << "Unexpected LISF flag at " << buff << '\n';
+                buff += seg_length - 4;
+                break;
+            }
+
+            frame.ODS.eval(buff);
+            break;
+        case DISPLAY_SEGMENT:
+            END++;
+
+            frame.decode(buff, tess);
+            frame.reset();
+            break;
+        default:
+            std::cout << "Unrecognized segment type " << seg_type << " at "
+                << buff << '\n';
+            break;
         }
     }
     std::cout 
