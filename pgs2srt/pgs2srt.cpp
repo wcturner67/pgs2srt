@@ -138,9 +138,9 @@ int main(int argc, char** argv)
     file.seekg(0);
     char* buff = new char[size];
     file.read(buff, size);
+    file.close();
     process(buff, size, filename);
 
-    file.close();
     auto stop = std::chrono::steady_clock::now();
     std::cout << '\n' << "Execution time: " <<
         std::chrono::duration<double, std::milli>(stop - start).count() << " ms" << '\n';
