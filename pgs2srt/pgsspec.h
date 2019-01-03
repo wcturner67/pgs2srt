@@ -4,10 +4,10 @@
 #include "bytereadwrite.h"
 
 // Leptonica headers needed for Tesseract
-#include <leptonica\allheaders.h>
+#include <leptonica/allheaders.h>
 
 // Tesseract API headers
-#include <tesseract\baseapi.h>
+#include <tesseract/baseapi.h>
 
 #define RGBA(r,g,b,a) (((unsigned)(a) << 24) | ((r) << 16) | ((g) << 8) | (b))
 
@@ -17,8 +17,7 @@ namespace pgs_segment
     class PCS
     {
     public:
-        uint16_t width = 0;
-        uint16_t height = 0;
+        uint16_t width = 0, height = 0;
         uint8_t num_objects = 0;
         void eval(char *&buff)
         {
@@ -30,10 +29,8 @@ namespace pgs_segment
     class WDS
     {
     public:
-        uint16_t x_off = 0;
-        uint16_t width = 0;
-        uint16_t y_off = 0;
-        uint16_t height = 0;
+        uint16_t x_off = 0, width = 0,
+            y_off = 0, height = 0;
         void eval(char *&buff)
         {
             buff += 2;
@@ -47,10 +44,8 @@ namespace pgs_segment
     class PDS
     {
     public:
-        uint8_t Y = 0;
-        uint8_t Cr = 0;
-        uint8_t Cb = 0;
-        uint8_t A = 0;
+        uint8_t Y = 0, Cr = 0,
+            Cb = 0, A = 0;
         void eval(char *&buff)
         {
             buff += 3;
@@ -98,10 +93,8 @@ namespace pgs_segment
         Pix* decode_rle()
         {
             char* b = this->ODS.data;
-            char* end = this->ODS.length + b;
+            char* end = b + this->ODS.length;
             Pix* p = pixCreate(this->WDS.width, this->WDS.height, 32);
-            p->h = this->WDS.height;
-            p->w = this->WDS.width;
             for (unsigned int i = 0; i < this->ODS.length; i++)
             {
                 p->data[i] = 1;
