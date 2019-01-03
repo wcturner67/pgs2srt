@@ -115,7 +115,11 @@ int main(int argc, char** argv)
     // Instantiate tesseract
     const char* tessdata = "C:\\Program Files\\tesseract\\data\\";
     tesseract::TessBaseAPI *tess = new tesseract::TessBaseAPI;
-    tess->Init(tessdata, "eng");
+    if (tess->Init(tessdata, "eng"))
+    {
+        std::cout << "Failed to start tesseract" << '\n';
+        return 5;
+    }
 
     std::ifstream file (filename, std::ios::binary | std::ios::ate);
     if (!file.is_open())

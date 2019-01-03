@@ -13,7 +13,6 @@
 
 namespace pgs_segment
 {
-
     class PCS
     {
     public:
