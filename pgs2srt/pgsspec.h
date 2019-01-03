@@ -8,7 +8,6 @@
 #include <leptonica\pix.h>
 
 // Tesseract API headers
-#include <tesseract\basedir.h>
 #include <tesseract\baseapi.h>
 
 #define RGBA(r,g,b,a) (((unsigned)(a) << 24) | ((r) << 16) | ((g) << 8) | (b))
