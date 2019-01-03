@@ -111,7 +111,7 @@ namespace pgs_segment
             return p;
         }
 
-        void decode(char *buff)
+        void decode(char *buff, tesseract::TessBaseAPI* api)
         {
             /*
              * Just a note, only every other frame should actually contain information
@@ -125,7 +125,6 @@ namespace pgs_segment
 
             this->sub_num++;
 
-            tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
             Pix* p = this->decode_rle();
             api->SetImage(p);
             char* text = api->GetUTF8Text();
@@ -137,9 +136,9 @@ namespace pgs_segment
                 + text + '\n'
                 + '\n';
 
-            delete[] p;
-            delete[] text;
-            api->End();
+            // Release memory used by tesseract
+            delete[] p, text;
+            api->Clear();
         }
 
         frame (std::string &fname) : 
