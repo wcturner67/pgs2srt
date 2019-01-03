@@ -4,8 +4,7 @@
 #include "bytereadwrite.h"
 
 // Leptonica headers needed for Tesseract
-#include <leptonica\environ.h>
-#include <leptonica\pix.h>
+#include <leptonica\allheaders.h>
 
 // Tesseract API headers
 #include <tesseract\baseapi.h>
@@ -100,11 +99,10 @@ namespace pgs_segment
         {
             char* b = this->ODS.data;
             char* end = this->ODS.length + b;
-            uint64_t size = this->WDS.height * this->WDS.width;
-            Pix* p = new Pix;
+            Pix* p = pixCreate(this->WDS.width, this->WDS.height, 32);
             p->h = this->WDS.height;
             p->w = this->WDS.width;
-            for (int i = 0; i < size; i++)
+            for (unsigned int i = 0; i < this->ODS.length; i++)
             {
                 p->data[i] = 1;
             }
@@ -115,7 +113,7 @@ namespace pgs_segment
         {
             /*
              * Just a note, only every other frame should actually contain information
-             * The even frames are used to mark the end time of the odd
+             * The even frames are used to mark the end time of the odd frames
              */
             if (!this->ODS.data) { return; }
 
@@ -129,7 +127,6 @@ namespace pgs_segment
             api->SetImage(p);
             char* text = api->GetUTF8Text();
 
-            // Replace with ofstream when done
             this->f <<
                 std::to_string(this->sub_num) + '\n'
                 + std::to_string(this->PTS) + " --> " + end_time + '\n'

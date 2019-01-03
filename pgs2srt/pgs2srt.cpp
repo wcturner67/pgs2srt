@@ -9,10 +9,9 @@
  * @param buff pointer to buffer to be processed
  * @param size number of bytes to process
  */
-static void process(char* &buff, uint64_t size,
-    std::string &filename, tesseract::TessBaseAPI* tess)
+static void process(char* &buff, const char* end,
+    std::string filename, tesseract::TessBaseAPI* tess)
 {
-    char *end = buff + size;
     unsigned int PCS = 0, WDS = 0, PDS = 0,
         ODS = 0, END = 0, seg_type, seg_length;
     pgs_segment::frame frame(filename);
@@ -114,7 +113,7 @@ int main(int argc, char** argv)
     auto start = std::chrono::steady_clock::now();
 
     // Instantiate tesseract
-    const char* tessdata = "C:\\Program Files\\tesseract\\data";
+    const char* tessdata = "C:\\Program Files\\tesseract\\data\\";
     tesseract::TessBaseAPI *tess = new tesseract::TessBaseAPI;
     tess->Init(tessdata, "eng");
 
@@ -141,7 +140,7 @@ int main(int argc, char** argv)
     char* buff = new char[size];
     file.read(buff, size);
     file.close();
-    process(buff, size, filename, tess);
+    process(buff, buff+size, filename, tess);
 
     auto stop = std::chrono::steady_clock::now();
     std::cout << '\n' << "Execution time: " <<
