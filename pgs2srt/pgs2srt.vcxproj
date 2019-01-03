@@ -107,13 +107,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Users\William\source\tesseract\src\api;C:\Users\William\source\tesseract\src\ccstruct;C:\Users\William\source\tesseract\src\ccutil;C:\Users\William\source\tesseract\src\ccmain;C:\Users\William\source\leptonica\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\tesseract\include;C:\Program Files\leptonica\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\William\source\tesseract\win64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\leptonica\lib;C:\Program Files\tesseract\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>leptonica-1.78.0d.lib;tesseract40d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
     </Link>
@@ -149,13 +149,15 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
-      <AdditionalIncludeDirectories>C:\Users\William\source\tesseract\src\api;C:\Users\William\source\tesseract\src\ccmain;C:\Users\William\source\tesseract\src\ccstruct;C:\Users\William\source\tesseract\src\ccutil;C:\Users\William\source\leptonica\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files\leptonica\include;C:\Program Files\tesseract\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>leptonica-1.78.0.lib;tesseract40.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files\leptonica\lib;C:\Program Files\tesseract\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -172,15 +174,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="pgs2srt.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\leptonica\build\bin\Debug\leptonica-1.78.0d.ilk" />
-    <None Include="..\..\..\leptonica\build\bin\Debug\leptonica-1.78.0d.pdb" />
-    <None Include="..\..\..\leptonica\build\src\Debug\leptonica-1.78.0d.exp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\leptonica\build\src\Debug\leptonica-1.78.0d.lib" />
-    <Library Include="..\..\..\tesseract\win64\Debug\tesseract40d.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,12 +6,12 @@
 #include <stdint.h>
 
 // Leptonica headers needed for Tesseract
-#include <environ.h>
-#include <pix.h>
+#include <leptonica\environ.h>
+#include <leptonica\pix.h>
 
 // Tesseract API headers
-#include <basedir.h>
-#include <baseapi.h>
+#include <tesseract\basedir.h>
+#include <tesseract\baseapi.h>
 
 #define RGBA(r,g,b,a) (((unsigned)(a) << 24) | ((r) << 16) | ((g) << 8) | (b))
 

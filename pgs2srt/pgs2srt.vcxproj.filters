@@ -36,23 +36,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\..\leptonica\build\bin\Debug\leptonica-1.78.0d.ilk">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\leptonica\build\bin\Debug\leptonica-1.78.0d.pdb">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\leptonica\build\src\Debug\leptonica-1.78.0d.exp">
-      <Filter>Resource Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\tesseract\win64\Debug\tesseract40d.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-    <Library Include="..\..\..\leptonica\build\src\Debug\leptonica-1.78.0d.lib">
-      <Filter>Resource Files</Filter>
-    </Library>
-  </ItemGroup>
 </Project>
