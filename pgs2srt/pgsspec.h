@@ -94,6 +94,7 @@ namespace pgs_segment
             char* b = this->ODS.data;
             char* end = b + this->ODS.length;
             Pix* p = pixCreate(this->WDS.width, this->WDS.height, 32);
+
             for (unsigned int i = 0; i < this->ODS.length; i++)
             {
                 p->data[i] = 1;

@@ -7,7 +7,7 @@
  * Construct the frames used in OCR analysis
  * 
  * @param buff pointer to buffer to be processed
- * @param size number of bytes to process
+ * @param end points to end of buff
  */
 static void process(char* &buff, const char* end,
     std::string filename, tesseract::TessBaseAPI* tess)
