@@ -12,13 +12,8 @@
 static void process(char* &buff, uint64_t size, std::string &filename)
 {
     char *end = buff + size;
-    unsigned int PCS = 0;
-    unsigned int WDS = 0;
-    unsigned int PDS = 0;
-    unsigned int ODS = 0;
-    unsigned int END = 0;
-    unsigned int seg_type;
-    unsigned int seg_length;
+    unsigned int PCS = 0, WDS = 0, PDS = 0,
+        ODS = 0, END = 0, seg_type, seg_length;
     pgs_segment::frame frame(filename);
     std::string line;
 

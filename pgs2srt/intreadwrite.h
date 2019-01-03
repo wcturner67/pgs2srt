@@ -4,8 +4,6 @@ Stolen from ffmpeg because fuck writing this shit myself
 #ifndef IRW_H
 #define IRW_H
 
-#pragma once
-
 #define AV_RB8(x)     (((const uint8_t*)(x))[0])
 #define AV_WB8(p, d)  do { ((uint8_t*)(p))[0] = (d); } while(0)
 

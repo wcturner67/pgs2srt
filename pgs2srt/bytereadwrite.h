@@ -1,4 +1,3 @@
-#pragma once
 #ifndef BRW_H
 #define BRW_H
 

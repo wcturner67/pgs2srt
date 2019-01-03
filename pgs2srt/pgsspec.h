@@ -1,9 +1,7 @@
-#pragma once
 #ifndef PGSS_H
 #define PGSS_H
 
 #include "bytereadwrite.h"
-#include <stdint.h>
 
 // Leptonica headers needed for Tesseract
 #include <leptonica\environ.h>
@@ -118,7 +116,7 @@ namespace pgs_segment
         {
             /*
              * Just a note, only every other frame should actually contain information
-             * The 'second' frames are used to mark the end time
+             * The even frames are used to mark the end time of the odd
              */
             if (!this->ODS.data) { return; }
 
