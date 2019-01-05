@@ -72,7 +72,7 @@ namespace pgs_segment
     class frame
     {
     public:
-        unsigned int sub_num = 0;
+        uint32_t sub_num = 0;
         double PTS = 0;
         PCS PCS;
         WDS WDS;
@@ -91,13 +91,17 @@ namespace pgs_segment
 
         Pix* decode_rle()
         {
+            uint32_t color, r, c;
             char* b = this->ODS.data;
             char* end = b + this->ODS.length;
             Pix* p = pixCreate(this->WDS.width, this->WDS.height, 32);
 
-            for (unsigned int i = 0; i < this->ODS.length; i++)
+            for (r = 0; r < this->ODS.length; r++)
             {
-                p->data[i] = 1;
+                for (c = 0; c < this->WDS.width; c++)
+                {
+                    pixSetPixel(p, c, r, 1);
+                }
             }
             return p;
         }
@@ -131,7 +135,7 @@ namespace pgs_segment
             api->Clear();
         }
 
-        frame (std::string &fname) : 
+        frame (std::string fname) : 
             f(std::ofstream(fname.substr(0, fname.size()-4) + ".srt")) {};
     };
 }

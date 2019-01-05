@@ -12,7 +12,7 @@
 static void process(char* &buff, const char* end,
     std::string filename, tesseract::TessBaseAPI* tess)
 {
-    unsigned int PCS = 0, WDS = 0, PDS = 0,
+    uint32_t PCS = 0, WDS = 0, PDS = 0,
         ODS = 0, END = 0, seg_type, seg_length;
     pgs_segment::frame frame(filename);
     std::string line;
@@ -79,7 +79,7 @@ static void process(char* &buff, const char* end,
             break;
         default:
             std::cout << "Unrecognized segment type " << seg_type << " at "
-                << buff << '\n';
+                << buff-10 << '\n';
             break;
         }
     }
