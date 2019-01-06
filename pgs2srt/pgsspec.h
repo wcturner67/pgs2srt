@@ -100,9 +100,13 @@ namespace pgs_segment
             {
                 for (c = 0; c < this->WDS.width; c++)
                 {
-                    pixSetPixel(p, c, r, 1);
+                    pixSetPixel(p, c, r, UINT32_MAX); // Placeholder
                 }
             }
+
+            FILE* F = fopen("out.bmp", "w");
+            pixWriteStreamBmp(F, p);
+            fclose(F);
             return p;
         }
 
