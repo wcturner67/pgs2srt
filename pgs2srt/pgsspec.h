@@ -91,7 +91,7 @@ namespace pgs_segment
 
         Pix* decode_rle()
         {
-            uint8_t color, temp;
+            uint8_t color, Lbuff;
             uint16_t L;
             uint32_t r, c;
             char* b = this->ODS.data;
@@ -112,17 +112,16 @@ namespace pgs_segment
                     color = bytestream_get_byte(b); 
                     if (!color)
                     {
-                        temp = bytestream_get_byte(b);
-                        if (!temp)
+                        Lbuff = bytestream_get_byte(b);
+                        if (!Lbuff)
                             break;
 
-                        if (temp & 0x40)
-                            L = temp << 8 | bytestream_get_byte(b);
+                        if (Lbuff & 0x40)
+                            L = (Lbuff << 8) | bytestream_get_byte(b);
                         else 
-                            L = temp ^ 0xC0;
+                            L = Lbuff ^ 0xC0;
 
-                        color = 0;
-                        if (temp & 0x80)
+                        if (Lbuff & 0x80)
                             color = bytestream_get_byte(b);
                     }
 
