@@ -104,9 +104,11 @@ namespace pgs_segment
                 }
             }
 
+            // For debugging
             FILE* F = fopen("out.bmp", "w");
             pixWriteStreamBmp(F, p);
             fclose(F);
+
             return p;
         }
 
