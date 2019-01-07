@@ -31,10 +31,7 @@ static void process(char* &buff, const char* end,
             frame.PTS = (double)bytestream_get_be32(buff) / 9e4;
             buff += 4;
         }
-        else
-        {
-            buff += 8;
-        }
+        else buff += 8;
 
         seg_type = bytestream_get_byte(buff);
         seg_length = bytestream_get_be16(buff);

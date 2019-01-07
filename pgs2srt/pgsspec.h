@@ -113,26 +113,21 @@ namespace pgs_segment
                     if (!color)
                     {
                         temp = bytestream_get_byte(b);
+                        if (!temp)
+                            break;
+
                         if (temp & 0x40)
-                        {
                             L = temp << 8 | bytestream_get_byte(b);
-                        }
-                        else
-                        {
+                        else 
                             L = temp ^ 0xC0;
-                        }
 
                         color = 0;
                         if (temp & 0x80)
-                        {
                             color = bytestream_get_byte(b);
-                        }
                     }
 
                     for (int i = 0; i < L; i++)
-                    {
                         pixSetPixel(p, c, r, color);
-                    }
                 }
             }
 
