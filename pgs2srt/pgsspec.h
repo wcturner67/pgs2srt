@@ -91,16 +91,48 @@ namespace pgs_segment
 
         Pix* decode_rle()
         {
-            uint32_t color, r, c;
+            uint8_t color, temp;
+            uint16_t L;
+            uint32_t r, c;
             char* b = this->ODS.data;
             char* end = b + this->ODS.length;
             Pix* p = pixCreate(this->WDS.width, this->WDS.height, 32);
 
+            /*
+             Note that in example file, first 
+             ODS data offset starts at 0x197
+            */
+            
             for (r = 0; r < this->ODS.length; r++)
             {
-                for (c = 0; c < this->WDS.width; c++)
+                c = 0;
+                while (c < this->WDS.width)
                 {
-                    pixSetPixel(p, c, r, UINT32_MAX); // Placeholder
+                    L = 1;
+                    color = bytestream_get_byte(b); 
+                    if (!color)
+                    {
+                        temp = bytestream_get_byte(b);
+                        if (temp & 0x40)
+                        {
+                            L = temp << 8 | bytestream_get_byte(b);
+                        }
+                        else
+                        {
+                            L = temp ^ 0xC0;
+                        }
+
+                        color = 0;
+                        if (temp & 0x80)
+                        {
+                            color = bytestream_get_byte(b);
+                        }
+                    }
+
+                    for (int i = 0; i < L; i++)
+                    {
+                        pixSetPixel(p, c, r, color);
+                    }
                 }
             }
 
