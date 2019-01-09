@@ -116,16 +116,16 @@ namespace pgs_segment
                         if (!Lbuff)
                             break;
 
+                        L = Lbuff & 0x3F;
                         if (Lbuff & 0x40)
-                            L = (Lbuff << 8) | bytestream_get_byte(b);
-                        else 
-                            L = Lbuff ^ 0xC0;
+                            L = (L << 8) | bytestream_get_byte(b);
 
                         if (Lbuff & 0x80)
                             color = bytestream_get_byte(b);
                     }
+                    L += c;
 
-                    for (int i = 0; i < L; i++)
+                    for (c; c < L; c++)
                         pixSetPixel(p, c, r, color);
                 }
             }
