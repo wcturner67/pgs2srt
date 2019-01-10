@@ -96,7 +96,7 @@ namespace pgs_segment
             uint32_t r, c;
             char* b = this->ODS.data;
             char* end = b + this->ODS.length;
-            Pix* p = pixCreate(this->WDS.width, this->WDS.height, 32);
+            Pix* p = pixCreate(this->WDS.width, this->WDS.height, 8);
 
             /*
              Note that in example file, first 

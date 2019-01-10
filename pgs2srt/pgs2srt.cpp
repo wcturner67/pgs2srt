@@ -15,7 +15,6 @@ static void process(char* &buff, const char* end,
     uint32_t PCS = 0, WDS = 0, PDS = 0,
         ODS = 0, END = 0, seg_type, seg_length;
     pgs_segment::frame frame(filename);
-    std::string line;
 
     while (buff < end)
     {
@@ -144,6 +143,6 @@ int main(int argc, char** argv)
 
     auto stop = std::chrono::steady_clock::now();
     std::cout << '\n' << "Execution time: " <<
-        std::chrono::duration<double, std::milli>(stop - start).count() << " ms" << '\n';
+        std::chrono::duration<double>(stop - start).count() << " s" << '\n';
     return 0;
 }
