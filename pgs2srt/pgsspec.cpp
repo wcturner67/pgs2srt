@@ -43,11 +43,19 @@ namespace pgs_segment
         uint32_t r, c;
         char* b = this->ODS.data;
         char* end = b + this->ODS.length;
-        Pix* p = pixCreate(this->WDS.width, this->WDS.height, 8);
+        Pix* p = pixCreate(this->WDS.width, this->WDS.height, 32);
+        uint32_t* d = p->data;
 
         /*
             Note that in example file, first
             ODS data offset starts at 0x197
+
+            Also, I'm starting to think that the alpha
+            value is the portion of color that is encoded
+            RLE, while the rest of the data is stored in
+            the colormap defined in earlier PGS segments
+
+            Will read the ffmpeg source later to confirm
         */
 
         for (r = 0; r < this->ODS.length; r++)
@@ -68,12 +76,11 @@ namespace pgs_segment
                         L = (L << 8) | bytestream_get_byte(b);
 
                     if (Lbuff & 0x80)
-                        color = bytestream_get_byte(b);
+                        color = bytestream_get_byte(b) << 24;
                 }
                 L += c;
-
-                for (c; c < L; c++)
-                    pixSetPixel(p, c, r, color);
+                
+                memcpy(p->data + r, &color, L * 4);
             }
         }
 
