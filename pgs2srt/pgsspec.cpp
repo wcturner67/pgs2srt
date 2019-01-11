@@ -1,3 +1,5 @@
+#include <leptonica/allheaders.h>
+
 #include "pgsspec.h"
 
 
@@ -86,9 +88,9 @@ namespace pgs_segment
     void frame::decode(char *buff, tesseract::TessBaseAPI* api)
     {
         /*
-             * Just a note, only every other frame should actually contain information
-             * The even frames are used to mark the end time of the odd frames
-             */
+         * Just a note, only every other frame should actually contain information
+         * The even frames are used to mark the end time of the odd frames
+         */
         if (!this->ODS.data)
             return;
 

@@ -5,7 +5,7 @@
 #include "bytereadwrite.h"
 
 // Leptonica headers needed for Tesseract
-#include <leptonica/allheaders.h>
+#include <leptonica/alltypes.h>
 
 // Tesseract API headers
 #include <tesseract/baseapi.h>
@@ -15,8 +15,8 @@ namespace pgs_segment
     class PCS
     {
     public:
-        uint16_t width = 0, height = 0;
         uint8_t num_objects = 0;
+        uint16_t width = 0, height = 0;
         
         void eval(char *&buff);
     };
