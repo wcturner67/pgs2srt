@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="intreadwrite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -27,12 +24,15 @@
     <ClInclude Include="bytereadwrite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pgs2srt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="pgs2srt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="pgs2srt.cpp">
+    <ClCompile Include="pgsspec.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

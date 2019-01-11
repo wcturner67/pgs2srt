@@ -1,6 +1,7 @@
 #ifndef PGSS_H
 #define PGSS_H
 
+#include <fstream>
 #include "bytereadwrite.h"
 
 // Leptonica headers needed for Tesseract
@@ -9,8 +10,6 @@
 // Tesseract API headers
 #include <tesseract/baseapi.h>
 
-#define RGBA(r,g,b,a) (((unsigned)(a) << 24) | ((r) << 16) | ((g) << 8) | (b))
-
 namespace pgs_segment
 {
     class PCS
@@ -18,11 +17,8 @@ namespace pgs_segment
     public:
         uint16_t width = 0, height = 0;
         uint8_t num_objects = 0;
-        void eval(char *&buff)
-        {
-            this->width = bytestream_get_be16(buff);
-            this->height = bytestream_get_be16(buff);
-        }
+        
+        void eval(char *&buff);
     };
 
     class WDS
@@ -30,14 +26,8 @@ namespace pgs_segment
     public:
         uint16_t x_off = 0, width = 0,
             y_off = 0, height = 0;
-        void eval(char *&buff)
-        {
-            buff += 2;
-            this->x_off = bytestream_get_be16(buff);
-            this->y_off = bytestream_get_be16(buff);
-            this->width = bytestream_get_be16(buff);
-            this->height = bytestream_get_be16(buff);
-        }
+        
+        void eval(char *&buff);
     };
 
     class PDS
@@ -45,14 +35,8 @@ namespace pgs_segment
     public:
         uint8_t Y = 0, Cr = 0,
             Cb = 0, A = 0;
-        void eval(char *&buff)
-        {
-            buff += 3;
-            this->Y = bytestream_get_byte(buff);
-            this->Cr = bytestream_get_byte(buff);
-            this->Cb = bytestream_get_byte(buff);
-            this->A = bytestream_get_byte(buff);
-        }
+
+        void eval(char *&buff);
     };
 
     class ODS
@@ -61,12 +45,8 @@ namespace pgs_segment
         uint16_t ID = 0;
         uint32_t length = 0;
         char* data;
-        void eval(char *&buff)
-        {
-            this->length = bytestream_get_be24(buff);
-            this->data = buff;
-            buff += this->length;
-        }
+
+        void eval(char *&buff);
     };
 
     class frame
@@ -80,87 +60,13 @@ namespace pgs_segment
         ODS ODS;
         std::ofstream f;
 
-        Pix* decode_rle()
-        {
-            uint8_t color, Lbuff;
-            uint16_t L;
-            uint32_t r, c;
-            char* b = this->ODS.data;
-            char* end = b + this->ODS.length;
-            Pix* p = pixCreate(this->WDS.width, this->WDS.height, 8);
+        //
+        Pix* decode_rle();
 
-            /*
-             Note that in example file, first 
-             ODS data offset starts at 0x197
-            */
-            
-            for (r = 0; r < this->ODS.length; r++)
-            {
-                c = 0;
-                while (c < this->WDS.width)
-                {
-                    L = 1;
-                    color = bytestream_get_byte(b); 
-                    if (!color)
-                    {
-                        Lbuff = bytestream_get_byte(b);
-                        if (!Lbuff)
-                            break;
+        //
+        void decode(char *buff, tesseract::TessBaseAPI* api);
 
-                        L = Lbuff & 0x3F;
-                        if (Lbuff & 0x40)
-                            L = (L << 8) | bytestream_get_byte(b);
-
-                        if (Lbuff & 0x80)
-                            color = bytestream_get_byte(b);
-                    }
-                    L += c;
-
-                    for (c; c < L; c++)
-                        pixSetPixel(p, c, r, color);
-                }
-            }
-
-            // For debugging
-            FILE* F = fopen("out.bmp", "w");
-            pixWriteStreamBmp(F, p);
-            fclose(F);
-
-            return p;
-        }
-
-        void decode(char *buff, tesseract::TessBaseAPI* api)
-        {
-            /*
-             * Just a note, only every other frame should actually contain information
-             * The even frames are used to mark the end time of the odd frames
-             */
-            if (!this->ODS.data)
-                return;
-
-            // Read end time from next segment
-            buff += 2;
-            std::string end_time = std::to_string((double)bytestream_get_be32(buff) / 9e4);
-
-            this->sub_num++;
-
-            Pix* p = this->decode_rle();
-            api->SetImage(p);
-            char* text = api->GetUTF8Text();
-
-            this->f <<
-                std::to_string(this->sub_num) + '\n'
-                + std::to_string(this->PTS) + " --> " + end_time + '\n'
-                + text + '\n'
-                + '\n';
-
-            // Release memory used by tesseract
-            delete[] p, text;
-            api->Clear();
-        }
-
-        frame (std::string fname) : 
-            f(std::ofstream(fname.substr(0, fname.size()-4) + ".srt")) {};
+        frame(std::string fname);
     };
 }
 
