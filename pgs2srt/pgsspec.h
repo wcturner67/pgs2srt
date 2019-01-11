@@ -80,15 +80,6 @@ namespace pgs_segment
         ODS ODS;
         std::ofstream f;
 
-        void reset()
-        {
-            this->PTS = 0;
-            this->PCS = pgs_segment::PCS();
-            this->WDS = pgs_segment::WDS();
-            this->PDS = pgs_segment::PDS();
-            this->ODS = pgs_segment::ODS();
-        }
-
         Pix* decode_rle()
         {
             uint8_t color, Lbuff;
@@ -144,7 +135,8 @@ namespace pgs_segment
              * Just a note, only every other frame should actually contain information
              * The even frames are used to mark the end time of the odd frames
              */
-            if (!this->ODS.data) { return; }
+            if (!this->ODS.data)
+                return;
 
             // Read end time from next segment
             buff += 2;

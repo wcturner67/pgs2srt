@@ -71,7 +71,7 @@ static void process(char* &buff, const char* end,
             END++;
 
             frame.decode(buff, tess);
-            frame.reset();
+            frame = pgs_segment::frame(filename);
             break;
         default:
             std::cout << "Unrecognized segment type " << seg_type << " at "
