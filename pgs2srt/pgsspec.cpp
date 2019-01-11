@@ -35,12 +35,28 @@ namespace pgs_segment
         this->data = buff;
         buff += this->length;
     }
+
+    void frame::reset()
+    {
+        this->PCS = pgs_segment::PCS();
+        this->WDS = pgs_segment::WDS();
+        this->PDS = pgs_segment::PDS();
+        this->ODS = pgs_segment::ODS();
+    }
+
+    // For debugging only
+    void print_bmp(Pix* p)
+    {
+        FILE* F = fopen("out.bmp", "w");
+        pixWriteStreamBmp(F, p);
+        fclose(F);
+    }
         
     Pix* frame::decode_rle()
     {
-        uint8_t color, Lbuff;
+        uint8_t Lbuff;
         uint16_t L;
-        uint32_t r, c;
+        uint32_t r, c, color;
         char* b = this->ODS.data;
         char* end = b + this->ODS.length;
         Pix* p = pixCreate(this->WDS.width, this->WDS.height, 32);
@@ -64,7 +80,7 @@ namespace pgs_segment
             while (c < this->WDS.width)
             {
                 L = 1;
-                color = bytestream_get_byte(b);
+                color = bytestream_get_byte(b) << 24;
                 if (!color)
                 {
                     Lbuff = bytestream_get_byte(b);
@@ -80,13 +96,9 @@ namespace pgs_segment
                 }
                 
                 memcpy(p->data + r*(this->WDS.width) + c, &color, L * 4);
+                c += L;
             }
         }
-
-        // For debugging
-        FILE* F = fopen("out.bmp", "w");
-        pixWriteStreamBmp(F, p);
-        fclose(F);
 
         return p;
     }

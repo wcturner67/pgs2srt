@@ -61,6 +61,9 @@ namespace pgs_segment
         std::ofstream f;
 
         //
+        void reset();
+
+        //
         Pix* decode_rle();
 
         //
