@@ -82,7 +82,7 @@ namespace pgs_segment
             while (c < this->WDS.width)
             {
                 L = 1;
-                color = bytestream_get_byte(b) << 24;
+                color = bytestream_get_byte(b);
                 if (!color)
                 {
                     Lbuff = bytestream_get_byte(b);
@@ -94,10 +94,10 @@ namespace pgs_segment
                         L = (L << 8) | bytestream_get_byte(b);
 
                     if (Lbuff & 0x80)
-                        color = bytestream_get_byte(b) << 24;
+                        color = bytestream_get_byte(b);
                 }
                 
-                memcpy(p->data + r*(this->WDS.width) + c, &color, L);
+                memcpy(p->data + r*(this->WDS.width) + c, &color, L * 4);
                 c += L;
             }
         }
