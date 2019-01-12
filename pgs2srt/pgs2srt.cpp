@@ -60,7 +60,7 @@ static void process(char* &buff, const char* end,
             if (bytestream_get_byte(buff) != FLIS)
             {
                 // If this comes up a lot, then this feature needs to be implemented
-                std::cout << "Unexpected LISF flag at " << buff << '\n';
+                std::cout << "Unexpected LIS flag at " << buff << '\n';
                 buff += seg_length - 4;
                 break;
             }

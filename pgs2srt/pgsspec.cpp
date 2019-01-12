@@ -31,7 +31,8 @@ namespace pgs_segment
 
     void ODS::eval(char *&buff)
     {
-        this->length = bytestream_get_be24(buff);
+        this->length = bytestream_get_be24(buff)-4;
+        buff += 4;
         this->data = buff;
         buff += this->length;
     }
