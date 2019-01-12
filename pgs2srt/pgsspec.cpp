@@ -39,6 +39,7 @@ namespace pgs_segment
 
     void frame::reset()
     {
+        this->PTS = 0;
         this->PCS = pgs_segment::PCS();
         this->WDS = pgs_segment::WDS();
         this->PDS = pgs_segment::PDS();
@@ -65,7 +66,7 @@ namespace pgs_segment
 
         /*
             Note that in example file, first
-            ODS data offset starts at 0x19F
+            ODS data offset starts at 0x19E
 
             Also, I'm starting to think that the alpha
             value is the portion of color that is encoded
@@ -81,7 +82,7 @@ namespace pgs_segment
             while (c < this->WDS.width)
             {
                 L = 1;
-                color = bytestream_get_byte(b);
+                color = bytestream_get_byte(b) << 24;
                 if (!color)
                 {
                     Lbuff = bytestream_get_byte(b);
@@ -93,10 +94,10 @@ namespace pgs_segment
                         L = (L << 8) | bytestream_get_byte(b);
 
                     if (Lbuff & 0x80)
-                        color = bytestream_get_byte(b);
+                        color = bytestream_get_byte(b) << 24;
                 }
                 
-                memcpy(p->data + r*(this->WDS.width) + c, &color, L * 4);
+                memcpy(p->data + r*(this->WDS.width) + c, &color, L);
                 c += L;
             }
         }
