@@ -75,13 +75,13 @@ namespace pgs_segment
             Will read the ffmpeg source later to confirm
         */
 
-        for (r = 0; r < this->ODS.length; r++)
+        for (r = 0; r < this->WDS.height; r++)
         {
             c = 0;
             while (c < this->WDS.width)
             {
                 L = 1;
-                color = bytestream_get_byte(b) << 24;
+                color = bytestream_get_byte(b);
                 if (!color)
                 {
                     Lbuff = bytestream_get_byte(b);
@@ -93,7 +93,7 @@ namespace pgs_segment
                         L = (L << 8) | bytestream_get_byte(b);
 
                     if (Lbuff & 0x80)
-                        color = bytestream_get_byte(b) << 24;
+                        color = bytestream_get_byte(b);
                 }
                 
                 memcpy(p->data + r*(this->WDS.width) + c, &color, L * 4);
