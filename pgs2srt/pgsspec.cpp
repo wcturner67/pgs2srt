@@ -101,7 +101,7 @@ namespace pgs_segment
                 c += L;
             }
         }
-
+        print_bmp(p); // For debugging only, remove when done implementing this function
         return p;
     }
 
