@@ -65,7 +65,7 @@ namespace pgs_segment
 
         /*
             Note that in example file, first
-            ODS data offset starts at 0x197
+            ODS data offset starts at 0x19F
 
             Also, I'm starting to think that the alpha
             value is the portion of color that is encoded
