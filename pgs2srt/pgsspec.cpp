@@ -23,22 +23,16 @@ namespace pgs_segment
 
     void PDS::eval(char *&buff, uint16_t seg_length)
     {
+        char* end = buff + seg_length;
+
         // First PDS in example file starts at 0x44
         uint8_t id = bytestream_get_byte(buff);
         buff += 1;
 
-        char* end = buff + seg_length;
         while (buff < end)
         {
-            uint8_t c_id, Y, Cr, Cb, A;
-
-            c_id = bytestream_get_byte(buff);
-            Y = bytestream_get_byte(buff);
-            Cr = bytestream_get_byte(buff);
-            Cb = bytestream_get_byte(buff);
-            A = bytestream_get_byte(buff);
-
-            this->colors[c_id] = Y;
+            uint8_t c_id = bytestream_get_byte(buff);
+            this->colors[c_id] = ycc2rgb(buff);
         }
     }
 
@@ -60,11 +54,9 @@ namespace pgs_segment
     }
 
     // For debugging only
-    void print_bmp(Pix* p)
+    void print_png(Pix* p)
     {
-        FILE* F = fopen("out.bmp", "w");
-        pixWriteStreamBmp(F, p);
-        fclose(F);
+        pixWrite("out.png", p, 3);
     }
         
     Pix* frame::decode_rle()
@@ -114,7 +106,7 @@ namespace pgs_segment
                 c += L;
             }
         }
-        print_bmp(p); // For debugging only, remove when done implementing this function
+        print_png(p); // For debugging only, remove when done implementing this function
         return p;
     }
 
