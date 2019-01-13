@@ -108,12 +108,21 @@ namespace pgs_segment
                 //c += L;
             }
         }
+
+        // Prep for adaptive thresholding
         Pix *p2 = pixScaleRGBToGray2(p, 0.33, 0.33, 0.33);
         delete[] p;
         Pix *pixt, *pixd;
+
+        // Fill in missing data with Otsu method
         pixOtsuAdaptiveThreshold(p2, 30, 30, 0, 0, 0.1, &pixt, &pixd); 
-        p = pixScaleGrayToBinaryFast(p2, 1, 100); delete[] p2;
-        p2 = pixInvert(nullptr, p); delete[] p, pixt, pixd;
+        
+        // Binarize and invert image for tesseract
+        p = pixScaleGrayToBinaryFast(p2, 1, 100);
+        delete[] p2;
+        p2 = pixInvert(nullptr, p);
+        delete[] p, pixt, pixd;
+        
         print_bmp(p2); // For debugging only, remove when done implementing this function
         return p2;
     }
