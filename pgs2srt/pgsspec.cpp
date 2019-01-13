@@ -101,9 +101,11 @@ namespace pgs_segment
                     if (Lbuff & 0x80)
                         color = bytestream_get_byte(b);
                 }
-                
-                memset(p->data + r*(this->WDS.width) + c, this->PDS.colors[color], L);
-                c += L;
+                L += c;
+                for (c; c < L; c++)
+                    pixSetPixel(p, c, r, this->PDS.colors[color]);
+                //memset(p->data + r*(this->WDS.width) + c, this->PDS.colors[color], L);
+                //c += L;
             }
         }
         print_png(p); // For debugging only, remove when done implementing this function

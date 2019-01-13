@@ -3,8 +3,7 @@
 
 inline uint32_t RGBA(uint8_t R, uint8_t G, uint8_t B , uint8_t A)
 {
-    //return A << 24 | R << 16 | G << 8 | B;
-    return B << 24 | G << 16 | R << 8 | A;
+    return R << 24 | G << 16 | B << 8 | A;
 }
 
 uint32_t ycc2rgb(char *&buff)
