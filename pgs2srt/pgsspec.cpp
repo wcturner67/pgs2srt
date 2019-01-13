@@ -30,12 +30,12 @@ namespace pgs_segment
         char* end = buff + seg_length;
         while (buff < end)
         {
-            uint8_t c_id, Y, cr, cb, A;
+            uint8_t c_id, Y, Cr, Cb, A;
 
             c_id = bytestream_get_byte(buff);
             Y = bytestream_get_byte(buff);
-            cr = bytestream_get_byte(buff);
-            cb = bytestream_get_byte(buff);
+            Cr = bytestream_get_byte(buff);
+            Cb = bytestream_get_byte(buff);
             A = bytestream_get_byte(buff);
 
             this->colors[c_id] = Y;
