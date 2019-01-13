@@ -54,9 +54,9 @@ namespace pgs_segment
     }
 
     // For debugging only
-    void print_png(Pix* p)
+    void print_bmp(Pix* p)
     {
-        pixWrite("out.png", p, 3);
+        pixWrite("out.bmp", p, 1);
     }
         
     Pix* frame::decode_rle()
@@ -108,8 +108,14 @@ namespace pgs_segment
                 //c += L;
             }
         }
-        print_png(p); // For debugging only, remove when done implementing this function
-        return p;
+        Pix *p2 = pixScaleRGBToGray2(p, 0.33, 0.33, 0.33);
+        delete[] p;
+        Pix *pixt, *pixd;
+        pixOtsuAdaptiveThreshold(p2, 30, 30, 0, 0, 0.1, &pixt, &pixd); 
+        p = pixScaleGrayToBinaryFast(p2, 1, 100); delete[] p2;
+        p2 = pixInvert(nullptr, p); delete[] p, pixt, pixd;
+        print_bmp(p2); // For debugging only, remove when done implementing this function
+        return p2;
     }
 
     void frame::decode(char *buff, tesseract::TessBaseAPI* api)
