@@ -272,3 +272,4 @@ __pycache__/
 /pgs2srt/pvt.cppan.demo.danbloomberg.leptonica-1.76.0.dll
 /pgs2srt/leptonica-1.78.0d.dll
 *.dll
+*.png

@@ -118,7 +118,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files\leptonica\lib;C:\Program Files\tesseract\lib;C:\Program Files\libpng\lib;C:\Program Files\zlib\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>leptonica-1.78.0d.lib;tesseract40d.lib;zlibd.lib;libpng16_staticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>leptonica-1.78.0d.lib;tesseract40d.lib;zlibstaticd.lib;libpng16_staticd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>
       </ModuleDefinitionFile>
     </Link>
