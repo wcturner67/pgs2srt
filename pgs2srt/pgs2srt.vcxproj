@@ -93,6 +93,8 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>C:\Program Files\tesseract\include;C:\Program Files\leptonica\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>
+      </LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -165,11 +167,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="bytereadwrite.h" />
+    <ClInclude Include="colorspace.h" />
     <ClInclude Include="intreadwrite.h" />
     <ClInclude Include="pgs2srt.h" />
     <ClInclude Include="pgsspec.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="colorspace.cpp" />
     <ClCompile Include="pgs2srt.cpp" />
     <ClCompile Include="pgsspec.cpp" />
   </ItemGroup>

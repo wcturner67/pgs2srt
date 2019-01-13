@@ -12,8 +12,10 @@
 static void process(char* &buff, const char* end,
     std::string filename, tesseract::TessBaseAPI* tess)
 {
+    uint8_t seg_type;
+    uint16_t seg_length;
     uint32_t PCS = 0, WDS = 0, PDS = 0,
-        ODS = 0, END = 0, seg_type, seg_length;
+        ODS = 0, END = 0;
     pgs_segment::frame frame(filename);
 
     while (buff < end)
@@ -50,8 +52,7 @@ static void process(char* &buff, const char* end,
         case PALETTE_SEGMENT:
             PDS++;
 
-            frame.PDS.eval(buff);
-            buff += seg_length - 7;
+            frame.PDS.eval(buff, seg_length);
             break;
         case OBJECT_SEGMENT:
             ODS++;
@@ -129,7 +130,7 @@ int main(int argc, char** argv)
         std::cout << "Warning: filesize exceeds 1GB"
             << '\n' << "Proceed? [Y/n]: ";
         char in = tolower(std::getchar());
-        if (in != 'y' || in != '\n')
+        if ((in != 'y') && (in != '\n'))
         {
             std::cout << "Aborting due to user input" << '\n';
             return 10;

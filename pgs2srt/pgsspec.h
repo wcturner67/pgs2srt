@@ -33,10 +33,9 @@ namespace pgs_segment
     class PDS
     {
     public:
-        uint8_t Y = 0, Cr = 0,
-            Cb = 0, A = 0;
+        uint32_t colors[255] = {};
 
-        void eval(char *&buff);
+        void eval(char *&buff, uint16_t seg_length);
     };
 
     class ODS

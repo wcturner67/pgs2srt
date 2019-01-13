@@ -1,6 +1,7 @@
 #include <leptonica/allheaders.h>
 
 #include "pgsspec.h"
+#include "colorspace.h"
 
 
 namespace pgs_segment
@@ -20,13 +21,25 @@ namespace pgs_segment
         this->height = bytestream_get_be16(buff);
     }
 
-    void PDS::eval(char *&buff)
+    void PDS::eval(char *&buff, uint16_t seg_length)
     {
-        buff += 3;
-        this->Y = bytestream_get_byte(buff);
-        this->Cr = bytestream_get_byte(buff);
-        this->Cb = bytestream_get_byte(buff);
-        this->A = bytestream_get_byte(buff);
+        // First PDS in example file starts at 0x44
+        uint8_t id = bytestream_get_byte(buff);
+        buff += 1;
+
+        char* end = buff + seg_length;
+        while (buff < end)
+        {
+            uint8_t c_id, Y, cr, cb, A;
+
+            c_id = bytestream_get_byte(buff);
+            Y = bytestream_get_byte(buff);
+            cr = bytestream_get_byte(buff);
+            cb = bytestream_get_byte(buff);
+            A = bytestream_get_byte(buff);
+
+            this->colors[c_id] = Y;
+        }
     }
 
     void ODS::eval(char *&buff)
@@ -97,7 +110,7 @@ namespace pgs_segment
                         color = bytestream_get_byte(b);
                 }
                 
-                memcpy(p->data + r*(this->WDS.width) + c, &color, L * 4);
+                memset(p->data + r*(this->WDS.width) + c, this->PDS.colors[color], L);
                 c += L;
             }
         }

@@ -27,12 +27,18 @@
     <ClInclude Include="pgs2srt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="colorspace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pgs2srt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="pgsspec.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="colorspace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
