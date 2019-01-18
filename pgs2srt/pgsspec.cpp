@@ -54,7 +54,7 @@ namespace pgs_segment
     }
 
     // For debugging only
-    void print_bmp(Pix* p)
+    inline void print_bmp(Pix* p)
     {
         pixWrite("out.bmp", p, 1);
     }
@@ -111,18 +111,17 @@ namespace pgs_segment
 
         // Prep for adaptive thresholding
         Pix *p2 = pixScaleRGBToGray2(p, 0.33, 0.33, 0.33);
-        free(p);
-        Pix *pixt, *pixd;
+        pixFreeData(p);
+        static Pix *pixt, *pixd; // Why is this necessary leptonica???
 
         // Fill in missing data with Otsu method
-        pixOtsuAdaptiveThreshold(p2, 200, 20, 0, 0, 0.1, &pixt, &pixd); 
+        pixOtsuAdaptiveThreshold(p2, 200, 20, 0, 0, 0.1, &pixt, &pixd);
         
         // Binarize and invert image for tesseract
         p = pixScaleGrayToBinaryFast(p2, 1, 100);
-        free(p2);
+        pixFreeData(p2);
         p2 = pixInvert(nullptr, p);
-        free(p);
-        delete[] pixt, pixd;
+        pixFreeData(p);
         
         print_bmp(p2); // For debugging only, remove when done implementing this function
         return p2;
@@ -153,7 +152,8 @@ namespace pgs_segment
             + text + '\n';
 
         // Release memory used by tesseract - this isn't entirely working!
-        delete[] p, text;
+        free(p);
+        delete[] text;
         api->Clear();
     }
 
