@@ -111,17 +111,18 @@ namespace pgs_segment
 
         // Prep for adaptive thresholding
         Pix *p2 = pixScaleRGBToGray2(p, 0.33, 0.33, 0.33);
-        delete[] p;
+        free(p);
         Pix *pixt, *pixd;
 
         // Fill in missing data with Otsu method
-        pixOtsuAdaptiveThreshold(p2, 30, 30, 0, 0, 0.1, &pixt, &pixd); 
+        pixOtsuAdaptiveThreshold(p2, 200, 20, 0, 0, 0.1, &pixt, &pixd); 
         
         // Binarize and invert image for tesseract
         p = pixScaleGrayToBinaryFast(p2, 1, 100);
-        delete[] p2;
+        free(p2);
         p2 = pixInvert(nullptr, p);
-        delete[] p, pixt, pixd;
+        free(p);
+        delete[] pixt, pixd;
         
         print_bmp(p2); // For debugging only, remove when done implementing this function
         return p2;
@@ -149,10 +150,9 @@ namespace pgs_segment
         this->f <<
             std::to_string(this->sub_num) + '\n'
             + std::to_string(this->PTS) + " --> " + end_time + '\n'
-            + text + '\n'
-            + '\n';
+            + text + '\n';
 
-        // Release memory used by tesseract
+        // Release memory used by tesseract - this isn't entirely working!
         delete[] p, text;
         api->Clear();
     }
