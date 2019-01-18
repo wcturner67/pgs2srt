@@ -111,7 +111,7 @@ namespace pgs_segment
 
         // Prep for adaptive thresholding
         Pix *p2 = pixScaleRGBToGray2(p, 0.33, 0.33, 0.33);
-        pixFreeData(p);
+        pixDestroy(&p);
         static Pix *pixt, *pixd; // Why is this necessary leptonica???
 
         // Fill in missing data with Otsu method
@@ -119,9 +119,9 @@ namespace pgs_segment
         
         // Binarize and invert image for tesseract
         p = pixScaleGrayToBinaryFast(p2, 1, 100);
-        pixFreeData(p2);
+        pixDestroy(&p2);
         p2 = pixInvert(nullptr, p);
-        pixFreeData(p);
+        pixDestroy(&p);
         
         print_bmp(p2); // For debugging only, remove when done implementing this function
         return p2;
@@ -152,7 +152,7 @@ namespace pgs_segment
             + text + '\n';
 
         // Release memory used by tesseract - this isn't entirely working!
-        free(p);
+        pixDestroy(&p);
         delete[] text;
         api->Clear();
     }
