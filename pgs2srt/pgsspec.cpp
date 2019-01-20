@@ -114,7 +114,7 @@ namespace pgs_segment
         pixDestroy(&p);
         
         // Binarize and invert image for tesseract
-        p = pixScaleGrayToBinaryFast(p2, 1, 100);
+        p = pixScaleGrayToBinaryFast(p2, 1, 10);
         pixDestroy(&p2);
         p2 = pixInvert(nullptr, p);
         pixDestroy(&p);
