@@ -112,10 +112,6 @@ namespace pgs_segment
         // Prep for adaptive thresholding
         Pix *p2 = pixScaleRGBToGray2(p, 0.33, 0.33, 0.33);
         pixDestroy(&p);
-        static Pix *pixt, *pixd; // Why is this necessary leptonica???
-
-        // Fill in missing data with Otsu method
-        pixOtsuAdaptiveThreshold(p2, 200, 20, 0, 0, 0.1, &pixt, &pixd);
         
         // Binarize and invert image for tesseract
         p = pixScaleGrayToBinaryFast(p2, 1, 100);
