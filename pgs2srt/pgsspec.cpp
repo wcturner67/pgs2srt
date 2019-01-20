@@ -122,6 +122,7 @@ namespace pgs_segment
         pixDestroy(&p2);
         p2 = pixInvert(nullptr, p);
         pixDestroy(&p);
+        p2->xres = p2->yres = 100;
         
         print_bmp(p2); // For debugging only, remove when done implementing this function
         return p2;
