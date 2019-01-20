@@ -108,12 +108,12 @@ namespace pgs_segment
                 //c += L;
             }
         }
-
-        // Prep for adaptive thresholding
+        
+        // Convert to gray-scale to fill in gaps...
         Pix *p2 = pixScaleRGBToGray2(p, 0.33, 0.33, 0.33);
         pixDestroy(&p);
-        
-        // Binarize and invert image for tesseract
+
+        // ... then binarize and invert for tesseract
         p = pixScaleGrayToBinaryFast(p2, 1, 10);
         pixDestroy(&p2);
         p2 = pixInvert(nullptr, p);
