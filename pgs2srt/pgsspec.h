@@ -24,8 +24,8 @@ namespace pgs_segment
     class WDS
     {
     public:
-        uint16_t x_off = 0, width = 0,
-            y_off = 0, height = 0;
+        uint16_t x_off = 0, y_off = 0,
+            width = 0, height = 0;
         
         void eval(char *&buff);
     };
