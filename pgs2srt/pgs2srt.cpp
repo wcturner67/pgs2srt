@@ -141,9 +141,10 @@ int main(int argc, char** argv)
     file.read(buff, size);
     file.close();
     process(buff, buff+size, filename, tess);
+    tess->End();
 
     auto stop = std::chrono::steady_clock::now();
     std::cout << '\n' << "Execution time: " <<
-        std::chrono::duration<double>(stop - start).count() << " s" << '\n';
+        std::chrono::duration<double>(stop - start).count() << "s" << '\n';
     return 0;
 }
