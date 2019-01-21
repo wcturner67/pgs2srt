@@ -41,7 +41,6 @@ namespace pgs_segment
     class ODS
     {
     public:
-        uint16_t ID = 0;
         uint32_t length = 0;
         char* data;
 

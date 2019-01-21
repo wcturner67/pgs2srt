@@ -69,18 +69,6 @@ namespace pgs_segment
         Pix* p = pixCreate(this->WDS.width, this->WDS.height, 32);
         uint32_t* d = p->data;
 
-        /*
-            Note that in example file, first
-            ODS data offset starts at 0x19E
-
-            Also, I'm starting to think that the alpha
-            value is the portion of color that is encoded
-            RLE, while the rest of the data is stored in
-            the colormap defined in earlier PGS segments
-
-            Will read the ffmpeg source later to confirm
-        */
-
         for (r = 0; r < this->WDS.height; r++)
         {
             c = 0;
